@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Checkbox, Label, Modal, TextInput, Textarea } from 'flowbite-react'
+import { Badge, Button, Label, Modal, TextInput, Textarea } from 'flowbite-react'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useGet } from '../../hooks/use-get'
 import { OccupiedTables, Product, Table } from '../models'
@@ -24,7 +24,7 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
   const listRef = useRef<HTMLUListElement>(null)
   const quantityInputRef = useRef<HTMLInputElement>(null)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const { data: tableData, loading: tableLoading, error: tableError } = useGet<Table[]>({ url: API_ENDPOINTS.TABLES })
+  const { data: tableData } = useGet<Table[]>({ url: API_ENDPOINTS.TABLES })
   const { data: occupiedTables } = useGet<OccupiedTables[]>({ url: API_ENDPOINTS.OCCUPIED_TABLES })
 
   const handleOnQtyChange: ChangeEventHandler<HTMLInputElement> = (event) => {

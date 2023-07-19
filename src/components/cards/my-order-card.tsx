@@ -5,15 +5,13 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import { usePut } from '../../hooks/use-put'
 import { useDelete } from '../../hooks/use-delete'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
-import { useGet } from '../../hooks/use-get'
-import { useEffect } from 'react'
 
 interface Props extends Order {
   product?: Product
 }
 
 export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady }: Props) => {
-  const { data, putData } = usePut({ manual: true })
+  const { putData } = usePut({ manual: true })
   const { data: deleteResponse, deleteData } = useDelete({ manual: true })
   const handleServeClick = () => {
     const endpoint = `/orders/served/${id}`

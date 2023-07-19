@@ -1,7 +1,4 @@
-import { Button, Card } from 'flowbite-react'
-import { HiOutlineArrowRight } from 'react-icons/hi'
 import { Product } from '../../pages/models'
-import img from '../../../public/assets/burger.jpg'
 
 interface Props extends Product {
   handleCreateOrderClick: (product: Product) => void

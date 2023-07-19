@@ -4,13 +4,12 @@ import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
-import useAxios from 'axios-hooks'
 import { usePost } from '../../hooks/use-post'
 import axios from 'axios'
 
 export const CreateProduct = () => {
   const [fileUrl, setFileUrl] = useState('')
-  const [fileUrlError, setFileUrlError] = useState('')
+  const [fileUrlError] = useState('')
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState('')
   const [description, setDescription] = useState('')
@@ -21,7 +20,7 @@ export const CreateProduct = () => {
   const [priceError, setPriceError] = useState('')
   const [file, setFile] = useState<File>()
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
-  const { data: productData, loading, postData } = usePost<Product>({ url: API_ENDPOINTS.PRODUCTS, manual: true })
+  const { data: productData, loading } = usePost<Product>({ url: API_ENDPOINTS.PRODUCTS, manual: true })
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileExplorer = () => {

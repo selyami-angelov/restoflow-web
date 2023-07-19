@@ -1,6 +1,5 @@
 import { ChangeEventHandler, useEffect, useState } from 'react'
-import img from '../../../public/assets/burger.jpg'
-import { Button, Card, Label, Select } from 'flowbite-react'
+import { Card } from 'flowbite-react'
 import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Bill, Order, Product, Table } from '../models'

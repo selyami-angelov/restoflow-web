@@ -1,8 +1,7 @@
 import { Button, Modal } from 'flowbite-react'
 import img from '../../assets/burger.jpg'
 import { Order, Product } from '../../pages/models'
-import { HiCheck, HiInformationCircle, HiOutlineInformationCircle, HiOutlineExclamationCircle } from 'react-icons/hi'
-import { usePost } from '../../hooks/use-post'
+import { HiCheck, HiOutlineExclamationCircle } from 'react-icons/hi'
 import { usePut } from '../../hooks/use-put'
 import { useState } from 'react'
 
@@ -21,7 +20,7 @@ export const OrderCard = ({
   info,
 }: Props) => {
   const [isInfoOpen, setIsInfoOpen] = useState(false)
-  const { data, putData } = usePut({ manual: true })
+  const { putData } = usePut({ manual: true })
 
   const handleDoneClick = () => {
     const endpoint = `/orders/ready/${id}`

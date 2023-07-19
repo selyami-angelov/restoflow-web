@@ -1,10 +1,8 @@
 import { Button } from 'flowbite-react'
-import placeholder from '../../../public/assets/create-product-placeholder.jpg'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
-import { usePost } from '../../hooks/use-post'
 import { usePut } from '../../hooks/use-put'
 import axios from 'axios'
 
@@ -12,7 +10,7 @@ const productId = '1048'
 
 export const EditProduct = () => {
   const [fileUrl, setFileUrl] = useState('')
-  const [fileUrlError, setFileUrlError] = useState('')
+  const [fileUrlError] = useState('')
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState('')
   const [description, setDescription] = useState('')
@@ -24,7 +22,7 @@ export const EditProduct = () => {
   const [file, setFile] = useState<File>()
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
   const { data: product } = useGet<Product>({ url: `${API_ENDPOINTS.PRODUCTS}/${productId}` })
-  const { data: updatedProduct, loading, putData } = usePut<Product>({ manual: true })
+  const { data: updatedProduct, loading } = usePut<Product>({ manual: true })
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileExplorer = () => {

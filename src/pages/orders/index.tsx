@@ -4,7 +4,7 @@ import { useGet } from '../../hooks/use-get'
 import { Order, Product } from '../models'
 
 export const Orders = () => {
-  const { data, loading, error } = useGet<Order[]>({ url: API_ENDPOINTS.ORDERS })
+  const { data } = useGet<Order[]>({ url: API_ENDPOINTS.ORDERS })
   const { data: productsData } = useGet<Product[]>({ url: API_ENDPOINTS.PRODUCTS })
 
   console.log(data)

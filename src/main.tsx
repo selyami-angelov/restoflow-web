@@ -33,7 +33,7 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
+initializeApp(firebaseConfig)
 
 const getJWT = () => {
   const userString = localStorage.getItem('user')
