@@ -1,5 +1,5 @@
 import { Badge, Button, Label } from 'flowbite-react'
-import img from '../../../public/assets/burger.jpg'
+import img from '../../assets/burger.jpg'
 import { Order, Product } from '../../pages/models'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { usePut } from '../../hooks/use-put'

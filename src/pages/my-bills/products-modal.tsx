@@ -1,6 +1,6 @@
 import { Modal } from 'flowbite-react'
 import { Order } from '../models'
-import img from '../../../public/assets/burger.jpg'
+import img from '../../assets/burger.jpg'
 
 interface Props {
   isOpen?: boolean

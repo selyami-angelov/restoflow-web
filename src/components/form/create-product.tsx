@@ -1,5 +1,5 @@
 import { Button } from 'flowbite-react'
-import placeholder from '../../../public/assets/create-product-placeholder.jpg'
+import placeholder from '../../assets/create-product-placeholder.jpg'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'

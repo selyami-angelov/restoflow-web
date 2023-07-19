@@ -4,7 +4,7 @@ import { useGet } from '../../hooks/use-get'
 import { OccupiedTables, Product, Table } from '../models'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { SearchIput } from './search-input'
-import img from '../../../public/assets/burger.jpg'
+import img from '../../assets/burger.jpg'
 import { CreateOrderProps } from '.'
 
 interface Props {

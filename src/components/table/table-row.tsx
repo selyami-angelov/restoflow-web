@@ -1,4 +1,4 @@
-import img from '../../../public/assets/burger.jpg'
+import img from '../../assets/burger.jpg'
 import { GreenStatusDot } from '../dots/green-status-dot'
 import { RedStatusDot } from '../dots/red-status-dot'
 

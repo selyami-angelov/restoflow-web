@@ -1,5 +1,5 @@
 import { Button, Modal } from 'flowbite-react'
-import img from '../../../public/assets/burger.jpg'
+import img from '../../assets/burger.jpg'
 import { Order, Product } from '../../pages/models'
 import { HiCheck, HiInformationCircle, HiOutlineInformationCircle, HiOutlineExclamationCircle } from 'react-icons/hi'
 import { usePost } from '../../hooks/use-post'

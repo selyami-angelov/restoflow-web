@@ -17,6 +17,23 @@ import { EditProduct } from './components/form/edit-product'
 import { MyTables } from './pages/my-tables'
 import { MyBills } from './pages/my-bills'
 import { AllBills } from './pages/all-bills'
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyB44NkSbhsjYT0V9Z_QjV7TwEVcx__RXho',
+  authDomain: 'resto-flow-web.firebaseapp.com',
+  projectId: 'resto-flow-web',
+  storageBucket: 'resto-flow-web.appspot.com',
+  messagingSenderId: '930928903926',
+  appId: '1:930928903926:web:a8ea7609fb8d51dadfced7',
+}
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
 
 const getJWT = () => {
   const userString = localStorage.getItem('user')
