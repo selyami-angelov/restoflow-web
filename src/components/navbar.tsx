@@ -1,37 +1,105 @@
-import { Button, DarkThemeToggle, Navbar } from 'flowbite-react'
+import { DarkThemeToggle } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
+
 import { Logo } from './logo'
 
-const SubNavbar = () => {
+export const NavBar = () => {
   const navigate = useNavigate()
 
   return (
-    <Navbar fluid>
-      <Navbar.Brand href="https://flowbite-react.com">
-        <Logo />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">RestoFlow</span>
-      </Navbar.Brand>
-      <div className="flex md:order-2 space-x-3">
-        <Button onClick={() => navigate('/products')}>Make Order</Button>
-        <Button onClick={() => navigate('/register')}>Register</Button>
-        <Button onClick={() => navigate('/login')}>Login</Button>
-        <DarkThemeToggle />
-        <Navbar.Toggle />
-      </div>
-      <Navbar.Collapse>
-        <Navbar.Link active href="#">
-          <p>Home</p>
-        </Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/orders')}>Orders</Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/my-orders')}>My Orders</Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/create-product')}>Create Product</Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/edit-product')}>Edit Product</Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/my-tables')}>My Tables</Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/my-bills')}>My Bills</Navbar.Link>
-        <Navbar.Link onClick={() => navigate('/all-bills')}>All Bills</Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+    <>
+      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+          <div
+            onClick={() => navigate('/')}
+            className="flex hover:cursor-pointer hover:bg-gray-100 p-1 pr-2 pl-2 rounded-md dark:hover:bg-gray-700"
+          >
+            <Logo />
+            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">RestoFlow</span>
+          </div>
+          <div className="flex items-center gap-4 font-medium">
+            <a onClick={() => navigate('/register')} className="text-gray-900 dark:text-white hover:cursor-pointer">
+              Register
+            </a>
+            <a onClick={() => navigate('/login')} className="text-gray-900 dark:text-white hover:cursor-pointer">
+              Login
+            </a>
+            <DarkThemeToggle />
+          </div>
+        </div>
+      </nav>
+      <nav className="bg-gray-100 dark:bg-gray-700">
+        <div className="max-w-screen-xl px-4 py-3 mx-auto">
+          <div className="flex items-center">
+            <ul className="flex flex-row font-medium mt-0 mr-6 space-x-8 text-sm">
+              <li>
+                <a
+                  onClick={() => navigate('/products')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  Make Order
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/orders')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  Orders
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/my-orders')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  My Orders
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/create-product')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  New Product
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/edit-product')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  Edit Product
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/my-tables')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  My Tables
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/all-bills')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  Bills
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate('/my-bills')}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  My Bills
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </>
   )
 }
-
-export { Navbar, SubNavbar }
