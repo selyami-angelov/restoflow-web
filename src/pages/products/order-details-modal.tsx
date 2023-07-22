@@ -123,7 +123,6 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
 
   return (
     <>
-      <Button onClick={closeTablesModal}>Toggle modal</Button>
       <Modal size={'3xl'} show={isOpen} onClose={closeTablesModal}>
         <Modal.Header>New order details</Modal.Header>
         <Modal.Body>
