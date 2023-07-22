@@ -5,6 +5,7 @@ import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
 import { usePut } from '../../hooks/use-put'
 import axios from 'axios'
+import { stage } from '../../configs/stage'
 
 const productId = '1048'
 
@@ -108,7 +109,7 @@ export const EditProduct = () => {
         formData.append('file', file)
       }
 
-      const response = await axios.put(`https://localhost:44329/api${API_ENDPOINTS.PRODUCTS}/${productId}`, formData, {
+      const response = await axios.put(`${stage}${API_ENDPOINTS.PRODUCTS}/${productId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

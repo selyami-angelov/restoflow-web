@@ -102,7 +102,7 @@ export const CreateProduct = () => {
       //   categoryId: categories?.find((c) => c.name === category)?.id,
       //   image: file,
       // }
-      const response = await axios.post(`${stage}`, formData, {
+      const response = await axios.post(`${stage}/products`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
