@@ -62,7 +62,6 @@ export const Products = () => {
     openTablesModal()
   }
 
-  console.log('products', productsData)
   return (
     <div className="container mx-auto ">
       <div className="flex justify-center flex-wrap gap-4">
