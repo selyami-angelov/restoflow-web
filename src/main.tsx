@@ -51,10 +51,12 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
   stage = 'https://resto-flow-api.azurewebsites.net/api/'
 }
 
+const jwt = getJWT()
+
 export const axios = Axios.create({
-  baseURL: stage,
+  baseURL: 'https://localhost:44329/api/',
   headers: {
-    Authorization: `Bearer ${getJWT()}`,
+    Authorization: jwt ? `Bearer ${getJWT()}` : null,
     'Content-Type': 'application/json',
   },
 })
