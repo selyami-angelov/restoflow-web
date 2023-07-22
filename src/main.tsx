@@ -54,10 +54,10 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 const jwt = getJWT()
 
 export const axios = Axios.create({
-  baseURL: 'https://localhost:44329/api/',
+  baseURL: stage,
   headers: {
-    Authorization: jwt ? `Bearer ${getJWT()}` : null,
     'Content-Type': 'application/json',
+    ...(jwt && { Authorization: `Bearer ${jwt}` }), // Conditionally add the header if the token is not null
   },
 })
 configure({ axios })
