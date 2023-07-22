@@ -19,6 +19,7 @@ import { MyBills } from './pages/my-bills'
 import { AllBills } from './pages/all-bills'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
+import { stage } from './configs/stage'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -41,14 +42,6 @@ const getJWT = () => {
 
   console.log('jwt', userString)
   return jwt
-}
-
-let stage
-
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  stage = 'https://localhost:44329/api/'
-} else {
-  stage = 'https://resto-flow-api.azurewebsites.net/api/'
 }
 
 const jwt = getJWT()

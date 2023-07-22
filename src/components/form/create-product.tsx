@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
 import { usePost } from '../../hooks/use-post'
 import axios from 'axios'
+import { stage } from '../../configs/stage'
 
 export const CreateProduct = () => {
   const [fileUrl, setFileUrl] = useState('')
@@ -101,7 +102,7 @@ export const CreateProduct = () => {
       //   categoryId: categories?.find((c) => c.name === category)?.id,
       //   image: file,
       // }
-      const response = await axios.post('https://localhost:44329/api/products', formData, {
+      const response = await axios.post(`${stage}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
