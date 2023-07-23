@@ -18,5 +18,5 @@ export const useGet = <T,>({ url, manual }: Props) => {
     executeGet({ url })
   }
 
-  return { data: data, error, loading, getData }
+  return { data, error, loading, getData }
 }

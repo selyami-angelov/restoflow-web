@@ -15,10 +15,8 @@ export const Home = () => {
         <img alt="image 4" src={img4} />
         <img alt="image 5" src={img5} />
       </Carousel>
-      <div className="absolute bottom-1 left-10 bg-white w-96 h-20 flex items-center justify-center dark:bg-gray-800 rounded-r-md">
-        <h2 style={{ fontStyle: 'italic' }} className="text-5xl font-semibold text-gray-600/90 dark:text-white/90">
-          Welcome
-        </h2>
+      <div className="absolute bottom-1 left-9 bg-white w-96 h-20 flex items-center justify-center dark:bg-gray-800 rounded-r-md">
+        <h2 className="text-5xl font-semibold italic text-gray-600/90 dark:text-white/90">Welcome</h2>
       </div>
     </div>
   )

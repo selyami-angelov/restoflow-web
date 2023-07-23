@@ -3,13 +3,10 @@ import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
-import { usePut } from '../../hooks/use-put'
 import axios from 'axios'
 import { stage } from '../../configs/stage'
 
-const productId = '1048'
-
-export const EditProduct = () => {
+export const EditProduct = ({ product }: { product: Product }) => {
   const [fileUrl, setFileUrl] = useState('')
   const [fileUrlError] = useState('')
   const [name, setName] = useState('')
@@ -20,10 +17,9 @@ export const EditProduct = () => {
   const [categoryError, setCategoryError] = useState('')
   const [price, setPrice] = useState('')
   const [priceError, setPriceError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File>()
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
-  const { data: product } = useGet<Product>({ url: `${API_ENDPOINTS.PRODUCTS}/${productId}` })
-  const { data: updatedProduct, loading } = usePut<Product>({ manual: true })
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileExplorer = () => {
@@ -31,17 +27,6 @@ export const EditProduct = () => {
       fileInputRef.current.click()
     }
   }
-
-  useEffect(() => {
-    if (updatedProduct?.id) {
-      setCategory('')
-      setFileUrl('')
-      setName('')
-      setDescription('')
-      setCategory('')
-      setPrice('')
-    }
-  }, [updatedProduct])
 
   useEffect(() => {
     if (product?.id) {
@@ -93,8 +78,10 @@ export const EditProduct = () => {
 
   const updateProduct = async () => {
     const isValid = validateInputs()
+    setLoading(true)
 
     if (!isValid) {
+      setLoading(false)
       return
     }
 
@@ -109,13 +96,19 @@ export const EditProduct = () => {
         formData.append('file', file)
       }
 
-      const response = await axios.put(`${stage}${API_ENDPOINTS.PRODUCTS}/${productId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      try {
+        const response = await axios.put(`${stage}${API_ENDPOINTS.PRODUCTS}/${product.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
 
-      console.log(response)
+        console.log('Response:', response.data)
+      } catch (error) {
+        console.error('Error:', error)
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
@@ -154,8 +147,6 @@ export const EditProduct = () => {
   }
 
   const isDisabledCreate = nameError || descriptionError || categoryError || priceError
-
-  console.log('UPDATED product data', updatedProduct)
 
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -217,13 +208,15 @@ export const EditProduct = () => {
               value={category}
               name="category"
               id="category"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:bg-transparent dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer "
               placeholder=" "
               required
             >
               {category || <option>-</option>}
               {categories?.map((cat) => (
-                <option key={cat.id}>{cat.name}</option>
+                <option className=" dark:bg-gray-700" key={cat.id}>
+                  {cat.name}
+                </option>
               ))}
             </select>
             <label
@@ -255,8 +248,13 @@ export const EditProduct = () => {
           </div>
         </form>
         <div className="flex items-center justify-end">
-          <Button isProcessing={loading} disabled={Boolean(isDisabledCreate) || loading} onClick={updateProduct}>
-            Create Product
+          <Button
+            size={'sm'}
+            isProcessing={loading}
+            disabled={Boolean(isDisabledCreate) || loading}
+            onClick={updateProduct}
+          >
+            Save
           </Button>
         </div>
       </div>

@@ -8,7 +8,6 @@ import { Home } from './pages/home'
 import { Register } from './pages/register'
 import { configure } from 'axios-hooks'
 import { AuthContextProvider } from './context/AuthContext'
-import { Products } from './pages/products'
 import { Orders } from './pages/orders'
 import { MyOrders } from './pages/my-orders'
 import { CreateProduct } from './components/form/create-product'
@@ -20,6 +19,7 @@ import { AllBills } from './pages/all-bills'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { stage } from './configs/stage'
+import { Menu } from './pages/menu'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -65,8 +65,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/products',
-        element: <Products />,
+        path: '/menu',
+        element: <Menu />,
       },
       {
         path: '/orders',

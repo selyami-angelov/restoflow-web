@@ -34,10 +34,10 @@ export const NavBar = () => {
             <ul className="flex flex-row font-medium mt-0 mr-6 space-x-8 text-sm">
               <li>
                 <a
-                  onClick={() => navigate('/products')}
+                  onClick={() => navigate('/menu')}
                   className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
                 >
-                  Make Order
+                  Menu
                 </a>
               </li>
               <li>
