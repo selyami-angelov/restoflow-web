@@ -4,7 +4,6 @@ import { useGet } from '../../hooks/use-get'
 import { OccupiedTables, Product, Table } from '../models'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { SearchIput } from './search-input'
-import img from '../../assets/burger.jpg'
 import { CreateOrderProps } from '.'
 
 interface Props {
@@ -132,12 +131,9 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
                 <div className="mb-2 block">
                   <Label className="whitespace-normal break-all" value={selectedProduct?.name} />
                 </div>
-
-                <figure className="relative max-w-sm  cursor-pointer filter ">
-                  <a href="#">
-                    <img className="rounded-lg" src={img} alt="image description" />
-                  </a>
-                </figure>
+                <div style={{ height: '164px', overflow: 'hidden' }} className="rounded-lg">
+                  <img className="w-full h-full object-cover" src={selectedProduct?.img} alt="image description" />
+                </div>
               </div>
               <div>
                 <div className="mb-2 block">

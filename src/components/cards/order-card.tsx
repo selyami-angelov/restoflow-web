@@ -1,5 +1,4 @@
 import { Button, Modal } from 'flowbite-react'
-import img from '../../assets/burger.jpg'
 import { Order, Product } from '../../pages/models'
 import { HiCheck, HiOutlineExclamationCircle } from 'react-icons/hi'
 import { usePut } from '../../hooks/use-put'
@@ -33,7 +32,7 @@ export const OrderCard = ({
         <div className="flex flex-col items-start md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
           <img
             className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-            src={img}
+            src={product?.img}
             alt="burger-img"
           />
           <div className="flex flex-col pl-3 justify-between leading-normal">
