@@ -66,14 +66,6 @@ export const NavBar = () => {
               </li>
               <li>
                 <a
-                  onClick={() => navigate('/edit-product')}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  Edit Product
-                </a>
-              </li>
-              <li>
-                <a
                   onClick={() => navigate('/my-tables')}
                   className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
                 >

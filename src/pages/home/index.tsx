@@ -9,13 +9,16 @@ export const Home = () => {
   return (
     <div className="w-full h-full p-10 bg-white dark:bg-gray-800 relative">
       <Carousel slideInterval={3000}>
-        <img alt="image 1" src={img1} />
-        <img alt="image 2" src={img2} />
-        <img alt="image 3" src={img3} />
-        <img alt="image 4" src={img4} />
-        <img alt="image 5" src={img5} />
+        <img className="rounded-xl" alt="image 1" src={img1} />
+        <img className="rounded-xl" alt="image 2" src={img2} />
+        <img className="rounded-xl" alt="image 3" src={img3} />
+        <img className="rounded-xl" alt="image 4" src={img4} />
+        <img className="rounded-xl" alt="image 5" src={img5} />
       </Carousel>
-      <div className="absolute bottom-1 left-9 bg-white w-96 h-20 flex items-center justify-center dark:bg-gray-800 rounded-r-md">
+      <div
+        style={{ bottom: '3%' }}
+        className="absolute bottom- left-9 bg-white w-1/3 h-24 flex items-center justify-center dark:bg-gray-800 rounded-r-md"
+      >
         <h2 className="text-5xl font-semibold italic text-gray-600/90 dark:text-white/90">Welcome</h2>
       </div>
     </div>
