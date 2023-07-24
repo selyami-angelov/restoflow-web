@@ -102,17 +102,19 @@ export const Menu = () => {
           </li>
         ))}
       </ul>
-      <TransitionGroup className="flex justify-center flex-wrap gap-4 mt-10">
-        {categoryProducts?.slice(0, 3).map((product) => (
-          <CSSTransition key={product.id} timeout={500} classNames="fade">
-            <ProductCard
-              {...product}
-              handleCreateOrderClick={openOrderDetailsModal}
-              handleEditProductClick={() => openEditProductModal(product)}
-            />
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
+      <div className="flex flex-wrap gap-4 mt-10">
+        <TransitionGroup component={null}>
+          {categoryProducts?.map((product) => (
+            <CSSTransition key={product.id} timeout={500} classNames="fade">
+              <ProductCard
+                {...product}
+                handleCreateOrderClick={openOrderDetailsModal}
+                handleEditProductClick={() => openEditProductModal(product)}
+              />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+      </div>
       <OrderDetailsModal
         closeTablesModal={() => setIsOpenOrderDetails(false)}
         onCofirm={onCofirm}

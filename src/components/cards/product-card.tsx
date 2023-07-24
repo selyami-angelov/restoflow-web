@@ -11,7 +11,9 @@ export default function ProductCard({ handleCreateOrderClick, handleEditProductC
   return (
     <div className="max-w-sm relative bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
-        <img className="rounded-t-lg" src={product.img} alt="" />
+        <div style={{ height: '200px', overflow: 'hidden' }}>
+          <img className="rounded-t-lg w-full h-full object-cover" src={product.img} alt="" />
+        </div>
       </a>
       <div className="p-5 mb-10">
         <a href="#">
