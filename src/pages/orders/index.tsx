@@ -5,6 +5,7 @@ import { useGet } from '../../hooks/use-get'
 import { Category, Order } from '../models'
 import { Clock } from '../../components/clock'
 import '../../App.css'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 export const Orders = () => {
   const [categoryOrders, setCategoryOrders] = useState<Order[]>([])
@@ -23,8 +24,6 @@ export const Orders = () => {
     }
   }
 
-  console.log(allOrders)
-
   return (
     <div className="w-full relative">
       <p className="m-10 mt-5 text-3xl font-bold font-playfair italic text-gray-600/90 dark:text-white/90">Orders</p>
@@ -35,6 +34,7 @@ export const Orders = () => {
         <li key={'all'} onClick={handleCategoryClick}>
           <a className="text-gray-950 dark:text-white hover:underline hover:cursor-pointer">All</a>
         </li>
+
         {categories?.map((c) => (
           <li key={c.id} onClick={handleCategoryClick}>
             <a className="text-gray-950 dark:text-white hover:underline hover:cursor-pointer">{c.name}</a>
@@ -42,9 +42,13 @@ export const Orders = () => {
         ))}
       </ul>
       <div>
-        {categoryOrders?.map((order) => (
-          <OrderCard key={order.id} {...order} />
-        ))}
+        <TransitionGroup component={null}>
+          {categoryOrders?.map((order) => (
+            <CSSTransition key={order.id} timeout={500} classNames="fade">
+              <OrderCard {...order} />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
       </div>
     </div>
   )
