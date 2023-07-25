@@ -5,7 +5,7 @@ interface Props extends Product {
   handleEditProductClick: () => void
 }
 
-export default function ProductCard({ handleCreateOrderClick, handleEditProductClick, ...product }: Props) {
+export const ProductCard = ({ handleCreateOrderClick, handleEditProductClick, ...product }: Props) => {
   console.log(product.img)
 
   return (
