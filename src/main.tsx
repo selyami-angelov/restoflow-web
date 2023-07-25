@@ -12,29 +12,11 @@ import { Orders } from './pages/orders'
 import { MyOrders } from './pages/my-orders'
 import { CreateProduct } from './components/form/create-product'
 import './index.css'
-import { EditProduct } from './components/form/edit-product'
 import { MyTables } from './pages/my-tables'
 import { MyBills } from './pages/my-bills'
 import { AllBills } from './pages/all-bills'
-// Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app'
 import { stage } from './configs/stage'
 import { Menu } from './pages/menu'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: 'AIzaSyB44NkSbhsjYT0V9Z_QjV7TwEVcx__RXho',
-  authDomain: 'resto-flow-web.firebaseapp.com',
-  projectId: 'resto-flow-web',
-  storageBucket: 'resto-flow-web.appspot.com',
-  messagingSenderId: '930928903926',
-  appId: '1:930928903926:web:a8ea7609fb8d51dadfced7',
-}
-
-// Initialize Firebase
-initializeApp(firebaseConfig)
 
 const getJWT = () => {
   const userString = localStorage.getItem('user')
@@ -83,10 +65,6 @@ const router = createBrowserRouter([
       {
         path: '/create-product',
         element: <CreateProduct />,
-      },
-      {
-        path: '/edit-product',
-        element: <EditProduct />,
       },
       {
         path: '/my-bills',

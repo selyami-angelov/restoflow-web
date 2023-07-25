@@ -2,12 +2,12 @@ import { MouseEventHandler, useEffect, useState } from 'react'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { useGet } from '../../hooks/use-get'
 import { Category, Product, Table } from '../models'
-import ProductCard from '../../components/cards/product-card'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import './styles.scss'
 import { OrderDetailsModal } from './order-details-modal'
 import { axios } from '../../main'
 import { EditProductModal } from '../../components/modals/edit-product-modal'
+import './styles.scss'
+import { ProductCard } from '../../components/cards/product-card'
 
 export interface CreateOrderProps {
   productId: number
