@@ -5,10 +5,7 @@ function App() {
     <div style={{ width: '100vw', height: '100vh' }}>
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <a
-            href="#"
-            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-          >
+          <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             <img className="w-8 h-8 mr-2" src={logo} alt="logo" />
             Resto-Flow
           </a>
@@ -19,10 +16,7 @@ function App() {
               </h1>
               <form className="space-y-4 md:space-y-6" action="#">
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
+                  <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Your email
                   </label>
                   <input
@@ -35,10 +29,7 @@ function App() {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
+                  <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Password
                   </label>
                   <input
@@ -62,18 +53,12 @@ function App() {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label
-                        htmlFor="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
+                      <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">
                         Remember me
                       </label>
                     </div>
                   </div>
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
+                  <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
                     Forgot password?
                   </a>
                 </div>
@@ -82,10 +67,7 @@ function App() {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{' '}
-                  <a
-                    href="#"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
+                  <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                     Sign up
                   </a>
                 </p>
