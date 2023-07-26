@@ -4,12 +4,12 @@ import { OrderCard } from '../../components/cards/order-card'
 import { useGet } from '../../hooks/use-get'
 import { Category, Order } from '../models'
 import { Clock } from '../../components/clock'
-import '../../App.css'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import '../../App.css'
 
 export const Orders = () => {
-  const [categoryOrders, setCategoryOrders] = useState<Order[]>([])
   const { data: allOrders } = useGet<Order[]>({ url: API_ENDPOINTS.ORDERS })
+  const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
 
   const handleCategoryClick: MouseEventHandler<HTMLLIElement> = (event) => {

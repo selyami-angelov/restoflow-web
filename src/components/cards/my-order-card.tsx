@@ -1,16 +1,11 @@
 import { Badge, Button, Label } from 'flowbite-react'
-import img from '../../assets/burger.jpg'
-import { Order, Product } from '../../pages/models'
+import { Order } from '../../pages/models'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { usePut } from '../../hooks/use-put'
 import { useDelete } from '../../hooks/use-delete'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 
-interface Props extends Order {
-  product?: Product
-}
-
-export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady }: Props) => {
+export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady }: Order) => {
   const { putData } = usePut({ manual: true })
   const { data: deleteResponse, deleteData } = useDelete({ manual: true })
   const handleServeClick = () => {
@@ -26,34 +21,41 @@ export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady
   console.log('delete response', deleteResponse)
 
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-w-sm relative pb-20 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
-        <img className="rounded-t-lg" src={img} alt="" />
+        <div style={{ height: '200px', overflow: 'hidden' }}>
+          <img className="rounded-t-lg w-full h-full object-cover" src={product?.img} alt="" />
+        </div>
       </a>
-      <div className="p-5">
-        <a href="#">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{product?.name}</h5>
-        </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{product?.description}</p>
-        <div className="flex justify-between items-start mt-4">
+      <div style={{ height: 'calc(100% - 200px)' }} className="flex flex-col justify-between">
+        <div className="m-5 mb-0">
+          <a href="#">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{product?.name}</h5>
+          </a>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{product?.description}</p>
+        </div>
+        <div className="flex justify-between items-start mt-5 p-3 m-1 bg-gray-100 dark:bg-gray-700">
           <div className="flex flex-col">
             <div className="flex items-center gap-1">
               <Label>Quantity:</Label>
-              <p>{productQuantity}</p>
+              <p className="text-gray-700 dark:text-gray-400">{productQuantity}</p>
             </div>
             <div className="flex items-center gap-1">
               <Label>Created:</Label>
-              <p>{new Date(createdDate).toLocaleTimeString()}</p>
+              <p className="text-gray-700 dark:text-gray-400">{new Date(createdDate).toLocaleTimeString()}</p>
             </div>
             <div className="flex items-center gap-1">
               <Label>Table:</Label>
               <p>{}</p>
             </div>
           </div>
-          <Badge size={'sm'} color={isReady ? 'success' : 'gray'}>
+          <Badge size={'sm'} color={isReady ? 'success' : 'yellow'}>
             {isReady ? 'Ready' : 'In Progress..'}
           </Badge>
         </div>
+      </div>
+
+      <div className="absolute bottom-0 right-2 left-2 p-4">
         <div className="flex w-full justify-end gap-2 border-t mt-3">
           <Button onClick={handleServeClick} className="mt-3" color={'success'} size={'xs'}>
             Mark as Served
