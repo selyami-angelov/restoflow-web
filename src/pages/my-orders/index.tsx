@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { MyOrderCard } from '../../components/cards/my-order-card'
 import { useGet } from '../../hooks/use-get'
@@ -8,21 +8,25 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 export const MyOrders = () => {
   const { data: allOrders } = useGet<Order[]>({ url: API_ENDPOINTS.MY_ORDERS })
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
-  const [categoryOrder, setCategoryOrder] = useState<Order[]>(allOrders ?? [])
+  const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
 
   const handleCategoryClick: MouseEventHandler<HTMLLIElement> = (event) => {
     if (allOrders) {
       const categoryName = event.currentTarget.textContent
       if (categoryName === 'All') {
-        setCategoryOrder(allOrders)
+        setCategoryOrders(allOrders)
       } else {
         const catOrders = allOrders?.filter((o) => o.product?.categoryName === categoryName)
-        setCategoryOrder(catOrders)
+        setCategoryOrders(catOrders)
       }
     }
   }
 
-  console.log(allOrders)
+  useEffect(() => {
+    if (allOrders) {
+      setCategoryOrders(allOrders)
+    }
+  }, [allOrders])
 
   return (
     <>
@@ -39,7 +43,7 @@ export const MyOrders = () => {
       </ul>
       <div className="flex flex-row flex-wrap justify-center gap-4">
         <TransitionGroup component={null}>
-          {categoryOrder?.map((order) => (
+          {categoryOrders?.map((order) => (
             <CSSTransition key={order.id} timeout={500} classNames="fade">
               <MyOrderCard key={order.id} {...order} />
             </CSSTransition>

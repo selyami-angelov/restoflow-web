@@ -5,7 +5,7 @@ import { usePut } from '../../hooks/use-put'
 import { useDelete } from '../../hooks/use-delete'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 
-export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady }: Order) => {
+export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady, tableNumber }: Order) => {
   const { putData } = usePut({ manual: true })
   const { data: deleteResponse, deleteData } = useDelete({ manual: true })
   const handleServeClick = () => {
@@ -46,7 +46,7 @@ export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady
             </div>
             <div className="flex items-center gap-1">
               <Label>Table:</Label>
-              <p>{}</p>
+              <p className="text-gray-700 dark:text-gray-400">{tableNumber}</p>
             </div>
           </div>
           <Badge size={'sm'} color={isReady ? 'success' : 'yellow'}>

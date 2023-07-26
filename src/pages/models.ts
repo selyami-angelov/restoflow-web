@@ -47,6 +47,7 @@ export interface Order {
   editedBy?: string
   editedById?: string
   editedDate?: string
+  tableNumber?: number
 }
 
 export interface Category {

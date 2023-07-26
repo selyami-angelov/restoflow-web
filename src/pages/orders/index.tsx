@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { OrderCard } from '../../components/cards/order-card'
 import { useGet } from '../../hooks/use-get'
@@ -23,6 +23,12 @@ export const Orders = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (allOrders) {
+      setCategoryOrders(allOrders)
+    }
+  }, [allOrders])
 
   return (
     <div className="w-full relative">
