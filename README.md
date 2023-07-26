@@ -1,4 +1,4 @@
-# Front-end App
+# RestoFlow front-end App
 
 This is a React.js front-end application built with TypeScript, hosted on Firebase, utilizing Axios for data fetching, styled using Tailwind CSS, and set up with ESLint and Vite for development.
 App is designed to manage orders and tables in a restaurant.
