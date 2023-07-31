@@ -63,10 +63,6 @@ const router = createBrowserRouter([
         element: <MyTables />,
       },
       {
-        path: '/create-product',
-        element: <CreateProduct />,
-      },
-      {
         path: '/my-bills',
         element: <MyBills />,
       },

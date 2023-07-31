@@ -2,8 +2,11 @@ import { DarkThemeToggle } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
 
 import { Logo } from './logo'
+import { CreateProductModal } from './modals/create-product-modal'
+import { useState } from 'react'
 
 export const NavBar = () => {
+  const [isOpenCreateProduct, setIsOpenCreateProduct] = useState(false)
   const navigate = useNavigate()
 
   return (
@@ -58,7 +61,7 @@ export const NavBar = () => {
               </li>
               <li>
                 <a
-                  onClick={() => navigate('/create-product')}
+                  onClick={() => setIsOpenCreateProduct((prev) => !prev)}
                   className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
                 >
                   New Product
@@ -92,6 +95,7 @@ export const NavBar = () => {
           </div>
         </div>
       </nav>
+      <CreateProductModal isOpen={isOpenCreateProduct} close={() => setIsOpenCreateProduct(false)} />
     </>
   )
 }
