@@ -6,9 +6,13 @@ import { Category, Order } from '../models'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 export const MyOrders = () => {
-  const { data: allOrders } = useGet<Order[]>({ url: API_ENDPOINTS.MY_ORDERS })
+  const { data: allOrders, getData: getOrders } = useGet<Order[]>({ url: API_ENDPOINTS.MY_ORDERS })
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
   const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
+
+  useEffect(() => {
+    getOrders(API_ENDPOINTS.MY_ORDERS)
+  }, [])
 
   const handleCategoryClick: MouseEventHandler<HTMLLIElement> = (event) => {
     if (allOrders) {

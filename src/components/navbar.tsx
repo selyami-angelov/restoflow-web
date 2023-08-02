@@ -1,11 +1,14 @@
 import { DarkThemeToggle } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
 
 import { Logo } from './logo'
 import { CreateProductModal } from './modals/create-product-modal'
 import { useState } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 export const NavBar = () => {
+  const { dispatch } = useContext(AuthContext)
   const [isOpenCreateProduct, setIsOpenCreateProduct] = useState(false)
   const navigate = useNavigate()
 
@@ -26,6 +29,12 @@ export const NavBar = () => {
             </a>
             <a onClick={() => navigate('/login')} className="text-gray-900 dark:text-white hover:cursor-pointer">
               Login
+            </a>
+            <a
+              onClick={() => dispatch({ type: 'LOGOUT' })}
+              className="text-gray-900 dark:text-white hover:cursor-pointer"
+            >
+              Logout
             </a>
             <DarkThemeToggle />
           </div>
