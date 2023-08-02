@@ -10,13 +10,13 @@ import { configure } from 'axios-hooks'
 import { AuthContextProvider } from './context/AuthContext'
 import { Orders } from './pages/orders'
 import { MyOrders } from './pages/my-orders'
-import { CreateProduct } from './components/form/create-product'
 import './index.css'
 import { MyTables } from './pages/my-tables'
 import { MyBills } from './pages/my-bills'
 import { AllBills } from './pages/all-bills'
 import { stage } from './configs/stage'
 import { Menu } from './pages/menu'
+import RouteGuard from './components/route-guard'
 
 const getJWT = () => {
   const userString = localStorage.getItem('user')
@@ -48,37 +48,61 @@ const router = createBrowserRouter([
       },
       {
         path: '/menu',
-        element: <Menu />,
+        element: (
+          <RouteGuard>
+            <Menu />
+          </RouteGuard>
+        ),
       },
       {
         path: '/orders',
-        element: <Orders />,
+        element: (
+          <RouteGuard>
+            <Orders />
+          </RouteGuard>
+        ),
       },
       {
         path: '/my-orders',
-        element: <MyOrders />,
+        element: (
+          <RouteGuard>
+            <MyOrders />
+          </RouteGuard>
+        ),
       },
       {
         path: '/my-tables',
-        element: <MyTables />,
+        element: (
+          <RouteGuard>
+            <MyTables />
+          </RouteGuard>
+        ),
       },
       {
         path: '/my-bills',
-        element: <MyBills />,
+        element: (
+          <RouteGuard>
+            <MyBills />
+          </RouteGuard>
+        ),
       },
       {
         path: '/all-bills',
-        element: <AllBills />,
+        element: (
+          <RouteGuard>
+            <AllBills />
+          </RouteGuard>
+        ),
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/register',
+        element: <Register />,
       },
     ],
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
   },
 ])
 

@@ -11,6 +11,12 @@ export const NavBar = () => {
   const { dispatch } = useContext(AuthContext)
   const [isOpenCreateProduct, setIsOpenCreateProduct] = useState(false)
   const navigate = useNavigate()
+  const { state } = useContext(AuthContext)
+
+  const logout = () => {
+    dispatch({ type: 'LOGOUT' })
+    navigate('/login')
+  }
 
   return (
     <>
@@ -24,18 +30,21 @@ export const NavBar = () => {
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">RestoFlow</span>
           </div>
           <div className="flex items-center gap-4 font-medium">
-            <a onClick={() => navigate('/register')} className="text-gray-900 dark:text-white hover:cursor-pointer">
-              Register
-            </a>
-            <a onClick={() => navigate('/login')} className="text-gray-900 dark:text-white hover:cursor-pointer">
-              Login
-            </a>
-            <a
-              onClick={() => dispatch({ type: 'LOGOUT' })}
-              className="text-gray-900 dark:text-white hover:cursor-pointer"
-            >
-              Logout
-            </a>
+            {!state.currentUser && (
+              <a onClick={() => navigate('/register')} className="text-gray-900 dark:text-white hover:cursor-pointer">
+                Register
+              </a>
+            )}
+            {!state.currentUser && (
+              <a onClick={() => navigate('/login')} className="text-gray-900 dark:text-white hover:cursor-pointer">
+                Login
+              </a>
+            )}
+            {state.currentUser && (
+              <a onClick={logout} className="text-gray-900 dark:text-white hover:cursor-pointer">
+                Logout
+              </a>
+            )}
             <DarkThemeToggle />
           </div>
         </div>
@@ -68,14 +77,16 @@ export const NavBar = () => {
                   My Orders
                 </a>
               </li>
-              <li>
-                <a
-                  onClick={() => setIsOpenCreateProduct((prev) => !prev)}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  New Product
-                </a>
-              </li>
+              {state.currentUser && (
+                <li>
+                  <a
+                    onClick={() => setIsOpenCreateProduct((prev) => !prev)}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    New Product
+                  </a>
+                </li>
+              )}
               <li>
                 <a
                   onClick={() => navigate('/my-tables')}

@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FormEventHandler, MouseEventHandler, useContext, useEffect, useState } from 'react'
 
 import { AuthContext } from '../../context/AuthContext'
@@ -18,6 +18,7 @@ export const Login = () => {
   const [errors, setErrors] = useState<LoginErrorsProps>(DEFAULT_STATES.LOGIN_ERRORS)
   const [responseError, setResponseError] = useState('')
   const { dispatch } = useContext(AuthContext)
+  const navigate = useNavigate()
   const [{ data, error, loading }, executePost] = useAxios(
     {
       url: API_ENDPOINTS.LOGIN,
@@ -61,6 +62,7 @@ export const Login = () => {
   useEffect(() => {
     if (data) {
       dispatch({ type: 'LOGIN', payload: data })
+      navigate('/')
     }
   }, [data, dispatch])
 
@@ -71,12 +73,12 @@ export const Login = () => {
   }, [error])
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 h-screen">
+    <section className="bg-gray-50 dark:bg-gray-800 h-full">
       <div className="flex flex-col items-center justify-center h-full">
         <AuthFormHeader />
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-800 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
