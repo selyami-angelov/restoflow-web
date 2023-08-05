@@ -1,18 +1,20 @@
-import {
-  Dispatch,
-  ReactNode,
-  createContext,
-  useEffect,
-  useReducer,
-} from 'react'
+import { Dispatch, ReactNode, createContext, useEffect, useReducer } from 'react'
 import AuthReducer from './AuthReducer'
 
 interface Props {
   children: ReactNode | ReactNode[]
 }
 
+export interface CurrentUser {
+  email: string
+  firstName: string
+  lastName: string
+  token: string
+  username: string
+}
+
 export interface AuthState {
-  currentUser: string
+  currentUser: CurrentUser
 }
 
 export interface AuthAction {
@@ -41,9 +43,5 @@ export const AuthContextProvider = ({ children }: Props) => {
     localStorage.setItem('user', JSON.stringify(state.currentUser))
   }, [state.currentUser])
 
-  return (
-    <AuthContext.Provider value={{ state, dispatch }}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={{ state, dispatch }}>{children}</AuthContext.Provider>
 }

@@ -67,3 +67,11 @@ export interface Bill {
   userId: string
   user: string
 }
+
+export interface User {
+  email: string
+  firstName: string
+  id: string
+  lastName: string
+  roles: string[]
+}

@@ -49,3 +49,5 @@ export const ERROR_MESSAGES = {
   LOGIN: 'Invalid email or password. Please check your information and try again.',
   REGISTRATION: 'Something went wrong during registration. Please try again later.',
 }
+
+export const ALL_ROLES = ['MinimalAccess', 'Admin', 'Waiter', 'Cook']

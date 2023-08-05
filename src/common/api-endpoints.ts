@@ -11,4 +11,7 @@ export const API_ENDPOINTS = {
   BILL: '/bill',
   ALL_BILLS: '/bill/all',
   CREATE_BILL: '/bill/create',
+  USERS: '/User/all',
+  ASSIGN_ROLE: (userId: string) => `/user/${userId}/assign-role`,
+  REMOVE_ROLE: (userId: string) => `/user/${userId}/remove-role`,
 }

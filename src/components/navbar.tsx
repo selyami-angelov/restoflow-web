@@ -6,12 +6,13 @@ import { Logo } from './logo'
 import { CreateProductModal } from './modals/create-product-modal'
 import { useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import { UsersModal } from './modals/users-modal'
 
 export const NavBar = () => {
-  const { dispatch } = useContext(AuthContext)
+  const { dispatch, state } = useContext(AuthContext)
   const [isOpenCreateProduct, setIsOpenCreateProduct] = useState(false)
+  const [isOpenUsers, setIsOpenUsers] = useState(false)
   const navigate = useNavigate()
-  const { state } = useContext(AuthContext)
 
   const logout = () => {
     dispatch({ type: 'LOGOUT' })
@@ -111,11 +112,20 @@ export const NavBar = () => {
                   My Bills
                 </a>
               </li>
+              <li>
+                <a
+                  onClick={() => setIsOpenUsers(true)}
+                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                >
+                  Users
+                </a>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
       <CreateProductModal isOpen={isOpenCreateProduct} close={() => setIsOpenCreateProduct(false)} />
+      {isOpenUsers && <UsersModal isOpen={isOpenUsers} close={() => setIsOpenUsers(false)} />}
     </>
   )
 }

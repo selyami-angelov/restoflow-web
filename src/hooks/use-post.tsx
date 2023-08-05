@@ -11,7 +11,7 @@ interface PostDataProps {
 }
 
 export const usePost = <T,>({ url, manual }: Props) => {
-  const [{ data, error, loading }, executePost] = useAxios<T>(
+  const [{ data, error, loading, response }, executePost] = useAxios<T>(
     {
       url,
       method: 'POST',
@@ -30,5 +30,5 @@ export const usePost = <T,>({ url, manual }: Props) => {
     executePost(config)
   }
 
-  return { data: data ?? [], error, loading, postData }
+  return { data: data ?? [], error, loading, postData, response }
 }
