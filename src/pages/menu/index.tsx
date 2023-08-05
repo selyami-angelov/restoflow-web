@@ -4,10 +4,10 @@ import { useGet } from '../../hooks/use-get'
 import { Category, Product, Table } from '../models'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { OrderDetailsModal } from './order-details-modal'
-import { axios } from '../../main'
 import { EditProductModal } from '../../components/modals/edit-product-modal'
 import './styles.scss'
 import { ProductCard } from '../../components/cards/product-card'
+import axios from 'axios'
 
 export interface CreateOrderProps {
   productId: number

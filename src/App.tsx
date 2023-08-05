@@ -10,6 +10,36 @@ import { MyBills } from './pages/my-bills'
 import { AllBills } from './pages/all-bills'
 import { Login } from './pages/login'
 import { Register } from './pages/register'
+import Axios from 'axios'
+import { stage } from './configs/stage'
+import { configure } from 'axios-hooks'
+
+const getJWT = () => {
+  const userString = localStorage.getItem('user')
+  const jwt = userString ? JSON.parse(userString)?.token : null
+  return jwt
+}
+
+export const axios = Axios.create({
+  baseURL: stage,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+})
+
+configure({ axios })
+
+axios.interceptors.request.use(
+  (config) => {
+    const token = getJWT()
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => Promise.reject(error)
+)
 
 export const App = () => {
   const router = createBrowserRouter([

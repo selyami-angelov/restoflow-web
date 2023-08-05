@@ -10,9 +10,9 @@ export const MyOrders = () => {
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
   const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
 
-  // useEffect(() => {
-  //   getOrders(API_ENDPOINTS.MY_ORDERS)
-  // }, [])
+  useEffect(() => {
+    getOrders(API_ENDPOINTS.MY_ORDERS)
+  }, [])
 
   const handleCategoryClick: MouseEventHandler<HTMLLIElement> = (event) => {
     if (allOrders) {
