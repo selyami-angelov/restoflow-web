@@ -41,26 +41,28 @@ export const ProductCard = ({ handleCreateOrderClick, handleEditProductClick, ..
             </svg>
             Create Order
           </button>
-          <button
-            onClick={handleEditProductClick}
-            type="button"
-            className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2"
-          >
-            <svg
-              className="w-4 h-4 mr-2 -ml-1 text-[#626890]"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              height="1em"
-              width="1em"
+          {roles.includes('Admin') && (
+            <button
+              onClick={handleEditProductClick}
+              type="button"
+              className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2"
             >
-              <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
-            Edit
-          </button>
+              <svg
+                className="w-4 h-4 mr-2 -ml-1 text-[#626890]"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em"
+              >
+                <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+              </svg>
+              Edit
+            </button>
+          )}
         </div>
       )}
     </div>

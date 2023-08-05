@@ -7,9 +7,11 @@ import { CreateProductModal } from './modals/create-product-modal'
 import { useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { UsersModal } from './modals/users-modal'
+import { useUserDetails } from '../hooks/use-user-details'
 
 export const NavBar = () => {
   const { dispatch, state } = useContext(AuthContext)
+  const { roles } = useUserDetails()
   const [isOpenCreateProduct, setIsOpenCreateProduct] = useState(false)
   const [isOpenUsers, setIsOpenUsers] = useState(false)
   const navigate = useNavigate()
@@ -62,23 +64,27 @@ export const NavBar = () => {
                   Menu
                 </a>
               </li>
-              <li>
-                <a
-                  onClick={() => navigate('/orders')}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  Orders
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={() => navigate('/my-orders')}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  My Orders
-                </a>
-              </li>
-              {state.currentUser && (
+              {(roles.includes('Cook') || roles.includes('Admin')) && (
+                <li>
+                  <a
+                    onClick={() => navigate('/orders')}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    Orders
+                  </a>
+                </li>
+              )}
+              {roles.includes('Waiter') && (
+                <li>
+                  <a
+                    onClick={() => navigate('/my-orders')}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    My Orders
+                  </a>
+                </li>
+              )}
+              {roles.includes('Admin') && (
                 <li>
                   <a
                     onClick={() => setIsOpenCreateProduct((prev) => !prev)}
@@ -88,38 +94,46 @@ export const NavBar = () => {
                   </a>
                 </li>
               )}
-              <li>
-                <a
-                  onClick={() => navigate('/my-tables')}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  My Tables
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={() => navigate('/all-bills')}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  Bills
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={() => navigate('/my-bills')}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  My Bills
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={() => setIsOpenUsers(true)}
-                  className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
-                >
-                  Users
-                </a>
-              </li>
+              {roles.includes('Waiter') && (
+                <li>
+                  <a
+                    onClick={() => navigate('/my-tables')}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    My Tables
+                  </a>
+                </li>
+              )}
+              {roles.includes('Admin') && (
+                <li>
+                  <a
+                    onClick={() => navigate('/all-bills')}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    Bills
+                  </a>
+                </li>
+              )}
+              {roles.includes('Waiter') && (
+                <li>
+                  <a
+                    onClick={() => navigate('/my-bills')}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    My Bills
+                  </a>
+                </li>
+              )}
+              {roles.includes('Admin') && (
+                <li>
+                  <a
+                    onClick={() => setIsOpenUsers(true)}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    Users
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

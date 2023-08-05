@@ -55,6 +55,13 @@ export const AllBills = () => {
     }
   }
 
+  console.log(
+    data
+      ?.map((d) => d.orders.map((o) => Number(o.productQuantity)))
+      .flat()
+      .reduce((a, b) => a + b, 0)
+  )
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-full">
       <div className="flex items-center justify-between p-3">
@@ -113,9 +120,17 @@ export const AllBills = () => {
             </th>
             <td className="px-6 py-3"></td>
             <td className="px-6 py-3"></td>
-            <td className="px-6 py-3">{''}</td>
             <td className="px-6 py-3">
-              {data?.map((d) => d.orders.map((o) => o.productQuantity).reduce((a, b) => Number(a) + Number(b), 0))}
+              {data
+                ?.map((d) => d.orders.map((o) => Number(o.productQuantity)))
+                .flat()
+                .reduce((a, b) => a + b, 0)}
+            </td>
+            <td className="px-6 py-3">
+              {data
+                ?.map((d) => d.orders.map((o) => Number(o.productQuantity) * Number(o.product?.price)))
+                .flat()
+                .reduce((a, b) => a + b, 0)}
             </td>
           </tr>
         </tfoot>
