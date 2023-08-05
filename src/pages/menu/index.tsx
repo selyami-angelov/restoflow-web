@@ -7,7 +7,7 @@ import { OrderDetailsModal } from './order-details-modal'
 import { EditProductModal } from '../../components/modals/edit-product-modal'
 import './styles.scss'
 import { ProductCard } from '../../components/cards/product-card'
-import axios from 'axios'
+import { axios } from '../../App'
 
 export interface CreateOrderProps {
   productId: number

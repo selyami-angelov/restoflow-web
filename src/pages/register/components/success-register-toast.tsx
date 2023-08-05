@@ -62,7 +62,7 @@ export const SuccessRegisterToast = ({ loginData, show }: Props) => {
 
   return (
     <div
-      className={`toast-top-right fixed top-5 right-5 transition-opacity duration-700 ease-in-out ${
+      className={`toast-top-right fixed top-32 right-5 transition-opacity duration-700 ease-in-out ${
         isOpen ? 'opacity-100' : 'opacity-0'
       }`}
     >
