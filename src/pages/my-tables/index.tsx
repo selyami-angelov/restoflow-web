@@ -4,6 +4,7 @@ import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Bill, Order, Product, Table } from '../models'
 import { TableRow } from '../../components/table/table-row'
+import { OrdersInProgressWarning } from '../../components/modals/orders-inprogress-warning'
 
 interface TableRowDataProps {
   orderId: number
@@ -17,6 +18,7 @@ interface TableRowDataProps {
 export const MyTables = () => {
   const [selectedTable, setSelectedTable] = useState<Table>()
   const [tableRowData, setTableRowData] = useState<TableRowDataProps[]>()
+  const [showInprogrWarning, setShowInprogrWarning] = useState(false)
   const { data: tables } = useGet<Table[]>({ url: API_ENDPOINTS.MY_TABLES })
   const { data: products, getData: getProducts } = useGet<Product[]>({ manual: true })
   const { data: userOrders, getData: getOrders } = useGet<Order[]>({ manual: true })
@@ -75,10 +77,12 @@ export const MyTables = () => {
   }
 
   const handleComplete = () => {
+    if (tableRowData?.some((r) => r.orderStatus !== 'Served')) {
+      setShowInprogrWarning(true)
+      return
+    }
     createBill(`${API_ENDPOINTS.CREATE_BILL}/${selectedTable?.id}`)
   }
-
-  console.log('BILL', tableRowData)
 
   return (
     <Card className="h-full flex flex-col w-full rounded-none">
@@ -101,31 +105,6 @@ export const MyTables = () => {
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              <input
-                onChange={() => console.log('search')}
-                type="text"
-                id="table-search-users"
-                className="block p-2 pl-10 sm:text-xs text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search for users"
-              />
-              {/* <!-- Dropdown menu --> */}
             </div>
           </div>
           <button
@@ -165,6 +144,7 @@ export const MyTables = () => {
                 status={row.orderStatus}
                 quantity={row.productQuantity}
                 price={row.orderPrice}
+                img={row?.productImg ?? ''}
               />
             ))}
           </tbody>
@@ -191,6 +171,12 @@ export const MyTables = () => {
           </tfoot>
         </table>
       </div>
+      <OrdersInProgressWarning
+        show={showInprogrWarning}
+        close={() => setShowInprogrWarning(false)}
+        tableNumber={selectedTable?.tableNumber}
+        ordersCount={tableRowData?.filter((t) => t.orderStatus !== 'Served').length}
+      />
     </Card>
   )
 }
