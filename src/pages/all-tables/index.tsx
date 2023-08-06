@@ -1,84 +1,39 @@
-import { ChangeEventHandler, useEffect, useState } from 'react'
 import { Card } from 'flowbite-react'
-import { useGet } from '../../hooks/use-get'
+import { Bill, OccupiedTables } from '../models'
+import { ChangeEventHandler, useEffect, useState } from 'react'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
-import { Bill, Order, Product, Table } from '../models'
+import { useGet } from '../../hooks/use-get'
 import { TableRow } from '../../components/table/table-row'
+import { OrdersInProgressWarning } from '../../components/modals/orders-inprogress-warning'
 
-interface TableRowDataProps {
-  orderId: number
-  productName: string
-  orderStatus?: 'Served' | 'In Progress...'
-  productQuantity: number
-  orderPrice: string
-  productImg?: string
-}
-
-export const MyTables = () => {
-  const [selectedTable, setSelectedTable] = useState<Table>()
-  const [tableRowData, setTableRowData] = useState<TableRowDataProps[]>()
-  const { data: tables } = useGet<Table[]>({ url: API_ENDPOINTS.MY_TABLES })
-  const { data: products, getData: getProducts } = useGet<Product[]>({ manual: true })
-  const { data: userOrders, getData: getOrders } = useGet<Order[]>({ manual: true })
-  const { data: bill, getData: createBill } = useGet<Bill>({ manual: true })
-
-  console.log('user orders', userOrders)
-  useEffect(() => {
-    if (userOrders?.length) {
-      const orderProducts = [...new Set(userOrders.map((o) => o.productId))]
-      const endpoint = `${API_ENDPOINTS.PRODUCTS}/range?ids=${orderProducts}`
-      getProducts(endpoint)
-    }
-  }, [userOrders])
-
-  useEffect(() => {
-    if (tables?.length) {
-      const firstTable = tables[0]
-      setSelectedTable(firstTable)
-      getTableOrders(firstTable.id.toString())
-    }
-  }, [tables])
-
-  useEffect(() => {
-    if (products?.length && userOrders?.length) {
-      const data: TableRowDataProps[] = []
-
-      userOrders.forEach((order) => {
-        const product = products.find((p) => p.id === order.productId)
-        if (product) {
-          const rowData: TableRowDataProps = {
-            orderId: order.id,
-            productName: product?.name,
-            orderStatus: order.isServed ? 'Served' : 'In Progress...',
-            orderPrice: (order.productQuantity * Number(product.price)).toFixed(2),
-            productQuantity: order.productQuantity,
-            productImg: product.img,
-          }
-          data.push(rowData)
-        }
-      })
-
-      setTableRowData(data)
-    }
-  }, [products, userOrders])
+export const AllTables = () => {
+  const [selectedTable, setSelectedTable] = useState<OccupiedTables>()
+  const [showInprogrWarning, setShowInprogrWarning] = useState(false)
+  const { data: occupiedTables } = useGet<OccupiedTables[]>({ url: API_ENDPOINTS.OCCUPIED_TABLES })
+  const { getData: createBill } = useGet<Bill>({ manual: true })
 
   const handleTableSelect: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const tableId = event.target.selectedOptions[0].id
-    const table = tables?.find((t) => t.id === Number(tableId))
+    const tableNumber = event.target.value
+    const table = occupiedTables?.find((ot) => ot.table.tableNumber === +tableNumber)
     setSelectedTable(table)
-    getTableOrders(tableId)
-  }
-
-  const getTableOrders = (tableId: string) => {
-    const url = `${API_ENDPOINTS.ORDERS}/tables/${tableId}`
-    getOrders(url)
   }
 
   const handleComplete = () => {
-    createBill(`${API_ENDPOINTS.CREATE_BILL}/${selectedTable?.id}`)
+    if (selectedTable?.orders.some((order) => !order.isServed)) {
+      setShowInprogrWarning(true)
+      return
+    }
+
+    createBill(`${API_ENDPOINTS.CREATE_BILL}/${selectedTable?.table.id}`)
   }
 
-  console.log('BILL', tableRowData)
+  useEffect(() => {
+    if (occupiedTables) {
+      setSelectedTable(occupiedTables[0])
+    }
+  }, [occupiedTables])
+
+  console.log(occupiedTables)
 
   return (
     <Card className="h-full flex flex-col w-full rounded-none">
@@ -91,13 +46,13 @@ export const MyTables = () => {
               </label>
               <select
                 id="select"
-                value={selectedTable?.tableNumber}
+                value={selectedTable?.table.tableNumber}
                 onChange={handleTableSelect}
                 className="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                {tables?.map((table) => (
-                  <option key={table.id} id={table.id.toString()}>
-                    {table.tableNumber}
+                {occupiedTables?.map((ot) => (
+                  <option key={ot.table.id} id={ot.table.id.toString()}>
+                    {ot.table.tableNumber}
                   </option>
                 ))}
               </select>
@@ -112,9 +67,9 @@ export const MyTables = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
               </div>
@@ -145,7 +100,9 @@ export const MyTables = () => {
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
-
+              <th scope="col" className="px-6 py-3">
+                User
+              </th>
               <th scope="col" className="px-6 py-3">
                 Status
               </th>
@@ -158,15 +115,18 @@ export const MyTables = () => {
             </tr>
           </thead>
           <tbody>
-            {tableRowData?.map((row) => (
-              <TableRow
-                key={row.orderId}
-                name={row.productName}
-                status={row.orderStatus}
-                quantity={row.productQuantity}
-                price={row.orderPrice}
-              />
-            ))}
+            {selectedTable &&
+              selectedTable.orders.map((order) => (
+                <TableRow
+                  key={order.id}
+                  name={order.product?.name ?? ''}
+                  status={order.isServed ? 'Served' : 'In Progress...'}
+                  quantity={order.productQuantity}
+                  price={(order.productQuantity * Number(order.product?.price)).toFixed(2)}
+                  img={order.product?.img ?? ''}
+                  userEmail={selectedTable.user.email}
+                />
+              ))}
           </tbody>
           <tfoot>
             <tr className="font-semibold text-gray-900 dark:text-white">
@@ -175,22 +135,30 @@ export const MyTables = () => {
               </th>
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
               <td className="px-6 py-3">
-                {tableRowData
-                  ?.map((d) => d.productQuantity)
+                {selectedTable?.orders
+                  ?.map((o) => o.productQuantity)
                   .reduce((accumulator, currentValue) => accumulator + currentValue, 0)}
               </td>
               <td className="px-6 py-3">
                 $
-                {tableRowData
-                  ?.map((d) => Number(d.orderPrice))
-                  .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-                  .toFixed(2)}
+                {selectedTable &&
+                  selectedTable?.orders
+                    ?.map((o) => (o.productQuantity * Number(o.product?.price)).toFixed(2))
+                    .reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)
+                    .toFixed(2)}
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
+      <OrdersInProgressWarning
+        show={showInprogrWarning}
+        close={() => setShowInprogrWarning(false)}
+        tableNumber={selectedTable?.table.tableNumber}
+        ordersCount={selectedTable?.orders.filter((o) => !o.isServed).length}
+      />
     </Card>
   )
 }

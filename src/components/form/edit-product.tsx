@@ -3,8 +3,7 @@ import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
-import axios from 'axios'
-import { stage } from '../../configs/stage'
+import { axios } from '../../App'
 
 export const EditProduct = ({ product }: { product: Product }) => {
   const [fileUrl, setFileUrl] = useState('')
@@ -97,7 +96,7 @@ export const EditProduct = ({ product }: { product: Product }) => {
       }
 
       try {
-        const response = await axios.put(`${stage}${API_ENDPOINTS.PRODUCTS}/${product.id}`, formData, {
+        const response = await axios.put(`${API_ENDPOINTS.PRODUCTS}/${product.id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

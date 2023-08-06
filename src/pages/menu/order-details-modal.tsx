@@ -28,7 +28,7 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
 
   const handleOnQtyChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = +event.target.value
-    const newValue = value < 0 ? 0 : value
+    const newValue = value <= 0 ? 1 : value
     setQtyError('')
     setQuantity(newValue)
 
@@ -94,14 +94,14 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
       return
     }
     const filtered = tableData.filter((t) => {
-      const occupiedTable = occupiedTables?.find((ot) => ot.tableId === t.id)
+      const occupiedTable = occupiedTables?.find((ot) => ot.table.id === t.id)
       const searchString = search.toLocaleLowerCase()
       return (
         t.seats.toString().includes(searchString) ||
         t.tableNumber.toString().includes(searchString) ||
-        occupiedTable?.userName.toLowerCase().includes(searchString) ||
-        (occupiedTable?.userName && 'busy'.includes(searchString)) ||
-        (!occupiedTable?.userName && 'free'.includes(searchString))
+        occupiedTable?.user.email.toLowerCase().includes(searchString) ||
+        (occupiedTable?.user.email && 'busy'.includes(searchString)) ||
+        (!occupiedTable?.user.email && 'free'.includes(searchString))
       )
     })
 
@@ -113,10 +113,10 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
   }
 
   const getTableState = (tableId: number) => {
-    const occupiedTable = occupiedTables?.find((oc) => oc.tableId === tableId)
+    const occupiedTable = occupiedTables?.find((oc) => oc.table.id === tableId)
     const state = occupiedTable ? 'failure' : 'success'
     const text = occupiedTable ? 'Busy' : 'Free'
-    const servingPerson = occupiedTable ? occupiedTable.userName : ''
+    const servingPerson = occupiedTable ? occupiedTable.user.email : ''
     return { state, text, servingPerson }
   }
 

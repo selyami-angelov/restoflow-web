@@ -13,6 +13,7 @@ import { Register } from './pages/register'
 import Axios from 'axios'
 import { stage } from './configs/stage'
 import { configure } from 'axios-hooks'
+import { AllTables } from './pages/all-tables'
 
 const getJWT = () => {
   const userString = localStorage.getItem('user')
@@ -80,6 +81,14 @@ export const App = () => {
           element: (
             <RouteGuard>
               <MyTables />
+            </RouteGuard>
+          ),
+        },
+        {
+          path: '/tables',
+          element: (
+            <RouteGuard>
+              <AllTables />
             </RouteGuard>
           ),
         },

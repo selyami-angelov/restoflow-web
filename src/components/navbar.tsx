@@ -107,6 +107,16 @@ export const NavBar = () => {
               {roles.includes('Admin') && (
                 <li>
                   <a
+                    onClick={() => navigate('/tables')}
+                    className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
+                  >
+                    Tables
+                  </a>
+                </li>
+              )}
+              {roles.includes('Admin') && (
+                <li>
+                  <a
                     onClick={() => navigate('/all-bills')}
                     className="text-gray-900 dark:text-white hover:underline hover:cursor-pointer"
                   >

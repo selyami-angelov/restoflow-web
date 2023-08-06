@@ -29,8 +29,9 @@ export interface Table {
 }
 
 export interface OccupiedTables {
-  tableId: number
-  userName: string
+  table: Table
+  user: User
+  orders: Order[]
 }
 
 export interface Order {
