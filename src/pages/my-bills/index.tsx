@@ -5,6 +5,7 @@ import { Bill, Order } from '../models'
 import { DatePicker } from '../../components/form/date-picker'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { ProdcutsModal } from './products-modal'
+import { convertUtcToLocalString } from '../../utils/utc-tolocale'
 
 interface TableRowDataProps {
   billId: number
@@ -27,15 +28,13 @@ export const MyBills = () => {
         tableNumber: bill.tableNumber,
         price: bill.totalSum,
         productsCount: bill.orders.map((o) => o.productQuantity).reduce((a, b) => Number(a) + Number(b), 0) || 0,
-        date: new Date(bill.date).toLocaleString('en-GB'),
+        date: convertUtcToLocalString(bill.date),
       }))
 
       setTableRowData(trData)
       console.log(data)
     }
   }, [data])
-
-  console.log(tableRowData, 'table row data')
 
   const getBillForDate = (date: Date) => {
     const currentDate = new Date()
@@ -44,7 +43,6 @@ export const MyBills = () => {
     newDate.setMinutes(currentDate.getMinutes())
     newDate.setMilliseconds(currentDate.getMilliseconds())
 
-    console.log(newDate)
     getData(`${API_ENDPOINTS.BILL}/${newDate.toISOString()}`)
   }
 
@@ -84,7 +82,10 @@ export const MyBills = () => {
         </thead>
         <tbody>
           {tableRowData?.map((row) => (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <tr
+              key={row.billId}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
               <td className="px-6 py-4">{row.tableNumber}</td>
               <td className="px-6 py-4">{row.date}</td>
               <td className="px-6 py-4">{row.productsCount}</td>
@@ -108,10 +109,17 @@ export const MyBills = () => {
               Total
             </th>
             <td className="px-6 py-3"></td>
-            <td className="px-6 py-3"></td>
-            <td className="px-6 py-3">{''}</td>
             <td className="px-6 py-3">
-              {data?.map((d) => d.orders.map((o) => o.productQuantity).reduce((a, b) => Number(a) + Number(b), 0))}
+              {data
+                ?.map((d) => d.orders.map((o) => Number(o.productQuantity)))
+                .flat()
+                .reduce((a, b) => a + b, 0)}
+            </td>
+            <td className="px-6 py-3">
+              {data
+                ?.map((d) => d.orders.map((o) => Number(o.productQuantity) * Number(o.product?.price)))
+                .flat()
+                .reduce((a, b) => a + b, 0)}
             </td>
           </tr>
         </tfoot>

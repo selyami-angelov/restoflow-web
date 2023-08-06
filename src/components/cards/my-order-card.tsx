@@ -4,10 +4,11 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import { usePut } from '../../hooks/use-put'
 import { useDelete } from '../../hooks/use-delete'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
+import { convertUtcToLocalString } from '../../utils/utc-tolocale'
 
 export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady, tableNumber }: Order) => {
   const { putData } = usePut({ manual: true })
-  const { data: deleteResponse, deleteData } = useDelete({ manual: true })
+  const { deleteData } = useDelete({ manual: true })
   const handleServeClick = () => {
     const endpoint = `/orders/served/${id}`
     putData({ url: endpoint })
@@ -16,9 +17,6 @@ export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady
   const handleDeleteClick = () => {
     deleteData({ url: `${API_ENDPOINTS.ORDERS}/${id}` })
   }
-
-  console.log('order id', id)
-  console.log('delete response', deleteResponse)
 
   return (
     <div className="max-w-sm relative pb-20 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -42,7 +40,7 @@ export const MyOrderCard = ({ createdDate, productQuantity, product, id, isReady
             </div>
             <div className="flex items-center gap-1">
               <Label>Created:</Label>
-              <p className="text-gray-700 dark:text-gray-400">{new Date(createdDate).toLocaleTimeString()}</p>
+              <p className="text-gray-700 dark:text-gray-400">{convertUtcToLocalString(createdDate)}</p>
             </div>
             <div className="flex items-center gap-1">
               <Label>Table:</Label>

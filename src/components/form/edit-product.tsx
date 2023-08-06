@@ -29,7 +29,6 @@ export const EditProduct = ({ product }: { product: Product }) => {
 
   useEffect(() => {
     if (product?.id) {
-      console.log('product to edit', product)
       setName(product.name)
       setDescription(product.description)
       setCategory(product.categoryName)
@@ -43,8 +42,6 @@ export const EditProduct = ({ product }: { product: Product }) => {
       const fileUrl = URL.createObjectURL(file)
       setFileUrl(fileUrl)
       setFile(file)
-
-      console.log('File selected:', file.name)
     }
   }
 
@@ -102,7 +99,9 @@ export const EditProduct = ({ product }: { product: Product }) => {
           },
         })
 
-        console.log('Response:', response.data)
+        if (response.data.id) {
+          window.location.reload()
+        }
       } catch (error) {
         console.error('Error:', error)
       } finally {

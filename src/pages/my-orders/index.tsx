@@ -32,6 +32,8 @@ export const MyOrders = () => {
     }
   }, [allOrders])
 
+  console.log(categoryOrders)
+
   return (
     <>
       <p className="m-10 text-3xl font-bold font-playfair italic text-gray-600/90 dark:text-white/90">My Orders</p>

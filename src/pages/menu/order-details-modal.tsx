@@ -87,6 +87,7 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
   const handleDecline = () => {
     closeTablesModal()
     setClickedTable(undefined)
+    setAdditionalInfo('')
   }
 
   const filterTables = (search: string) => {
@@ -119,6 +120,13 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
     const servingPerson = occupiedTable ? occupiedTable.user.email : ''
     return { state, text, servingPerson }
   }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setClickedTable(undefined)
+      setAdditionalInfo('')
+    }
+  }, [isOpen])
 
   return (
     <>

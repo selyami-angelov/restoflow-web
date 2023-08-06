@@ -8,9 +8,13 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import '../../App.css'
 
 export const Orders = () => {
-  const { data: allOrders } = useGet<Order[]>({ url: API_ENDPOINTS.ORDERS })
+  const { data: allOrders, getData } = useGet<Order[]>({ manual: true })
   const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
+
+  useEffect(() => {
+    getData(API_ENDPOINTS.ORDERS)
+  }, [])
 
   const handleCategoryClick: MouseEventHandler<HTMLLIElement> = (event) => {
     if (allOrders) {
@@ -49,11 +53,13 @@ export const Orders = () => {
       </ul>
       <div>
         <TransitionGroup component={null}>
-          {categoryOrders?.map((order) => (
-            <CSSTransition key={order.id} timeout={500} classNames="fade">
-              <OrderCard {...order} />
-            </CSSTransition>
-          ))}
+          {categoryOrders
+            ?.sort((o1, o2) => +new Date(o2.createdDate) - +new Date(o1.createdDate))
+            .map((order) => (
+              <CSSTransition key={order.id} timeout={500} classNames="fade">
+                <OrderCard {...order} getOrders={() => getData(API_ENDPOINTS.ORDERS)} />
+              </CSSTransition>
+            ))}
         </TransitionGroup>
       </div>
     </div>

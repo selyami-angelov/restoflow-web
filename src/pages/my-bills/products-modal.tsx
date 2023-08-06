@@ -1,6 +1,7 @@
 import { Modal } from 'flowbite-react'
 import { Order } from '../models'
 import img from '../../assets/burger.jpg'
+import { convertUtcToLocalString } from '../../utils/utc-tolocale'
 
 interface Props {
   isOpen?: boolean
@@ -37,13 +38,16 @@ export const ProdcutsModal = ({ isOpen, closeModal, orders }: Props) => {
               </thead>
               <tbody>
                 {orders?.map((order) => (
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <tr
+                    key={order.id}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  >
                     <td className="w-32 p-4">
                       <img src={order.product?.img} alt="Apple Watch" />
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">{order.product?.name}</td>
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                      {order.createdDate && new Date(order.createdDate).toLocaleString('en-GB')}
+                      {order.createdDate && convertUtcToLocalString(order.createdDate)}
                     </td>
 
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">{order.productQuantity}</td>
