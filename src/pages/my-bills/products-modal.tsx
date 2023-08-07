@@ -1,6 +1,5 @@
 import { Modal } from 'flowbite-react'
 import { Order } from '../models'
-import img from '../../assets/burger.jpg'
 import { convertUtcToLocalString } from '../../utils/utc-tolocale'
 
 interface Props {

@@ -22,7 +22,7 @@ export const MyTables = () => {
   const { data: tables } = useGet<Table[]>({ url: API_ENDPOINTS.MY_TABLES })
   const { data: products, getData: getProducts } = useGet<Product[]>({ manual: true })
   const { data: userOrders, getData: getOrders } = useGet<Order[]>({ manual: true })
-  const { data: bill, getData: createBill } = useGet<Bill>({ manual: true })
+  const { getData: createBill } = useGet<Bill>({ manual: true })
 
   console.log('user orders', userOrders)
   useEffect(() => {
