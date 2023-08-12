@@ -14,6 +14,9 @@ import Axios from 'axios'
 import { stage } from './configs/stage'
 import { configure } from 'axios-hooks'
 import { AllTables } from './pages/all-tables'
+import { PrivacyPolicy } from './pages/privacy'
+import { AboutUs } from './pages/about-us'
+import { ContactUs } from './pages/contacts'
 
 const getJWT = () => {
   const userString = localStorage.getItem('user')
@@ -54,11 +57,7 @@ export const App = () => {
         },
         {
           path: '/menu',
-          element: (
-            <RouteGuard>
-              <Menu />
-            </RouteGuard>
-          ),
+          element: <Menu />,
         },
         {
           path: '/orders',
@@ -115,6 +114,18 @@ export const App = () => {
         {
           path: '/register',
           element: <Register />,
+        },
+        {
+          path: '/privacy',
+          element: <PrivacyPolicy />,
+        },
+        {
+          path: '/about',
+          element: <AboutUs />,
+        },
+        {
+          path: '/contacts',
+          element: <ContactUs />,
         },
       ],
     },

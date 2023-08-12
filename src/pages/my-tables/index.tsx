@@ -43,7 +43,7 @@ export const MyTables = () => {
 
   useEffect(() => {
     getTables(API_ENDPOINTS.MY_TABLES)
-    console.log(createBillResponse)
+    setTableRowData([])
   }, [createBillResponse])
 
   useEffect(() => {

@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react'
 import * as signalR from '@microsoft/signalr'
 import { stage } from '../../configs/stage'
 
-export const useNewOrderListener = () => {
+export const useOrderHubListener = (listenOn: string) => {
   const [newOrder, setNewOrder] = useState(null)
 
   useEffect(() => {
+    if (!listenOn) {
+      return
+    }
+
     const url = stage.replace('/api', '/orderHub')
     const hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, {
@@ -14,11 +18,12 @@ export const useNewOrderListener = () => {
       })
       .build()
 
+    //NewOrderCreated
     hubConnection
       .start()
       .then(() => {
         console.log('SignalR Connected')
-        hubConnection.on('NewOrderCreated', (newOrderData) => {
+        hubConnection.on(listenOn, (newOrderData) => {
           setNewOrder(newOrderData)
         })
       })

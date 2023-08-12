@@ -6,13 +6,13 @@ import { Category, Order } from '../models'
 import { Clock } from '../../components/clock'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import '../../App.css'
-import { useNewOrderListener } from '../../hooks/signalr/use-new-order-listener'
+import { useOrderHubListener } from '../../hooks/signalr/use-order-hub-listener'
 
 export const Orders = () => {
   const { data: allOrders, getData } = useGet<Order[]>({ manual: true })
   const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
-  const newOrder = useNewOrderListener()
+  const newOrder = useOrderHubListener('NewOrderCreated')
 
   useEffect(() => {
     getData(API_ENDPOINTS.ORDERS)

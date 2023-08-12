@@ -74,7 +74,7 @@ export const NavBar = () => {
                   </a>
                 </li>
               )}
-              {roles.includes('Waiter') && (
+              {(roles.includes('Waiter') || roles.includes('Admin')) && (
                 <li>
                   <a
                     onClick={() => navigate('/my-orders')}
