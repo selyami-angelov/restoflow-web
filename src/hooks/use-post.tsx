@@ -1,3 +1,4 @@
+import { AxiosHeaders, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import useAxios from 'axios-hooks'
 
 interface Props {
@@ -10,11 +11,7 @@ interface PostDataProps {
   url?: string
 }
 
-interface HttpHeaders {
-  'Content-Type': string
-}
-
-const DEFAULE_HEADERS = {
+const DEFAULE_HEADERS: RawAxiosRequestHeaders | AxiosHeaders = {
   'Content-Type': 'application/json',
 }
 
@@ -27,10 +24,10 @@ export const usePost = <T,>({ url, manual }: Props) => {
     { manual }
   )
 
-  const postData = async (postData: PostDataProps, headers?: HttpHeaders) => {
-    const config = {
+  const postData = async (postData: PostDataProps, headers?: RawAxiosRequestHeaders | AxiosHeaders) => {
+    const config: string | AxiosRequestConfig = {
       ...postData,
-      headers: headers ?? DEFAULE_HEADERS,
+      headers: headers || DEFAULE_HEADERS,
     }
     executePost(config)
   }
