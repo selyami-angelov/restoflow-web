@@ -6,15 +6,24 @@ import { Category, Order } from '../models'
 import { Clock } from '../../components/clock'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import '../../App.css'
+import { useNewOrderListener } from '../../hooks/signalr/use-new-order-listener'
 
 export const Orders = () => {
   const { data: allOrders, getData } = useGet<Order[]>({ manual: true })
   const [categoryOrders, setCategoryOrders] = useState<Order[]>(allOrders ?? [])
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
+  const newOrder = useNewOrderListener()
 
   useEffect(() => {
     getData(API_ENDPOINTS.ORDERS)
   }, [])
+
+  useEffect(() => {
+    if (newOrder) {
+      console.log('get orders on new order created')
+      getData(API_ENDPOINTS.ORDERS)
+    }
+  }, [newOrder])
 
   const handleCategoryClick: MouseEventHandler<HTMLLIElement> = (event) => {
     if (allOrders) {
