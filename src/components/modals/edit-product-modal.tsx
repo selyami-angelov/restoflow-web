@@ -12,7 +12,7 @@ export const EditProductModal = ({ product, isOpen, close }: Props) => {
   return (
     <>
       <Modal show={isOpen} size="md" popup onClose={() => close()}>
-        <Modal.Body>{product && <EditProduct product={product} />}</Modal.Body>
+        <Modal.Body>{product && <EditProduct product={product} close={close} />}</Modal.Body>
       </Modal>
     </>
   )

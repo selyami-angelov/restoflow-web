@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
 import { axios } from '../../App'
 
-export const EditProduct = ({ product }: { product: Product }) => {
+export const EditProduct = ({ product, close }: { product: Product; close: () => void }) => {
   const [fileUrl, setFileUrl] = useState('')
   const [fileUrlError] = useState('')
   const [name, setName] = useState('')
@@ -100,12 +100,13 @@ export const EditProduct = ({ product }: { product: Product }) => {
         })
 
         if (response.data.id) {
-          window.location.reload()
+          document.dispatchEvent(new Event('reload-products'))
         }
       } catch (error) {
         console.error('Error:', error)
       } finally {
         setLoading(false)
+        close()
       }
     }
   }
@@ -245,7 +246,7 @@ export const EditProduct = ({ product }: { product: Product }) => {
             {priceError && <p className="text-sm text-red-500">{priceError}</p>}
           </div>
         </form>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end gap-2">
           <Button
             size={'sm'}
             isProcessing={loading}
@@ -253,6 +254,9 @@ export const EditProduct = ({ product }: { product: Product }) => {
             onClick={updateProduct}
           >
             Save
+          </Button>
+          <Button color="gray" onClick={close}>
+            Cancel
           </Button>
         </div>
       </div>

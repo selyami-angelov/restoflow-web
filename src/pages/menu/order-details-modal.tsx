@@ -23,8 +23,10 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
   const listRef = useRef<HTMLUListElement>(null)
   const quantityInputRef = useRef<HTMLInputElement>(null)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const { data: tableData } = useGet<Table[]>({ url: API_ENDPOINTS.TABLES })
-  const { data: occupiedTables } = useGet<OccupiedTables[]>({ url: API_ENDPOINTS.OCCUPIED_TABLES })
+  const { data: tableData, getData: getTableData } = useGet<Table[]>({ manual: true })
+  const { data: occupiedTables, getData: getOccupiedTables } = useGet<OccupiedTables[]>({
+    manual: true,
+  })
 
   const handleOnQtyChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = +event.target.value
@@ -125,6 +127,9 @@ export const OrderDetailsModal = ({ closeTablesModal, isOpen, onCofirm, loadingC
     if (!isOpen) {
       setClickedTable(undefined)
       setAdditionalInfo('')
+    } else {
+      getTableData(API_ENDPOINTS.TABLES)
+      getOccupiedTables(API_ENDPOINTS.OCCUPIED_TABLES)
     }
   }, [isOpen])
 

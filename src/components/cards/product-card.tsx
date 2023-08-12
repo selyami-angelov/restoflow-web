@@ -4,9 +4,15 @@ import { Product } from '../../pages/models'
 interface Props extends Product {
   handleCreateOrderClick: (product: Product) => void
   handleEditProductClick: () => void
+  handleDeleteClick: () => void
 }
 
-export const ProductCard = ({ handleCreateOrderClick, handleEditProductClick, ...product }: Props) => {
+export const ProductCard = ({
+  handleCreateOrderClick,
+  handleEditProductClick,
+  handleDeleteClick,
+  ...product
+}: Props) => {
   const { roles } = useUserDetails()
 
   return (
@@ -23,14 +29,14 @@ export const ProductCard = ({ handleCreateOrderClick, handleEditProductClick, ..
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{product.description}</p>
       </div>
       {(roles.includes('Admin') || roles.includes('Waiter')) && (
-        <div className="absolute bottom-1 left-5 ">
+        <div className="absolute flex justify-between bottom-1 left-5 right-5">
           <button
             type="button"
             onClick={() => handleCreateOrderClick(product)}
-            className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
+            className="text-gray-900 bg-yellow-400 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-yellow-500 mr-2 mb-2"
           >
             <svg
-              className="w-4 h-4 mr-2 -ml-1 text-[#626890]"
+              className="w-4 h-4 mr-2 -ml-1 text-gray-700"
               viewBox="0 0 512 512"
               fill="currentColor"
               height="1em"
@@ -42,26 +48,48 @@ export const ProductCard = ({ handleCreateOrderClick, handleEditProductClick, ..
             Create Order
           </button>
           {roles.includes('Admin') && (
-            <button
-              onClick={handleEditProductClick}
-              type="button"
-              className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2"
-            >
-              <svg
-                className="w-4 h-4 mr-2 -ml-1 text-[#626890]"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-                height="1em"
-                width="1em"
+            <div>
+              <button
+                onClick={handleEditProductClick}
+                type="button"
+                className="text-blue-600 bg-blue-100 hover:bg-blue-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2"
               >
-                <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-              </svg>
-              Edit
-            </button>
+                <svg
+                  className="w-4 h-4 mr-2 -ml-1 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em"
+                >
+                  <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                Edit
+              </button>
+              <button
+                onClick={handleDeleteClick}
+                type="button"
+                className="text-red-600 bg-red-100 hover:bg-red-200 focus:ring-4 focus:outline-none focus:ring-red-100 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-red-500 mr-2 mb-2"
+              >
+                <svg
+                  className="w-4 h-4 mr-2 -ml-1 text-red-600"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em"
+                >
+                  <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                Delete
+              </button>
+            </div>
           )}
         </div>
       )}

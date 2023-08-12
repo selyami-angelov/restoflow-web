@@ -119,7 +119,8 @@ export const MyBills = () => {
               {data
                 ?.map((d) => d.orders.map((o) => Number(o.productQuantity) * Number(o.product?.price)))
                 .flat()
-                .reduce((a, b) => a + b, 0)}
+                .reduce((a, b) => a + b, 0)
+                .toFixed(2)}
             </td>
           </tr>
         </tfoot>

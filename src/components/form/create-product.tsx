@@ -5,12 +5,14 @@ import { useGet } from '../../hooks/use-get'
 import { API_ENDPOINTS } from '../../common/api-endpoints'
 import { Category, Product } from '../../pages/models'
 import { usePost } from '../../hooks/use-post'
-import axios from 'axios'
-import { stage } from '../../configs/stage'
 
-export const CreateProduct = () => {
+interface Props {
+  close: () => void
+}
+
+export const CreateProduct = ({ close }: Props) => {
   const [fileUrl, setFileUrl] = useState('')
-  const [fileUrlError] = useState('')
+  const [fileUrlError, setFileUrlError] = useState('')
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState('')
   const [description, setDescription] = useState('')
@@ -21,7 +23,11 @@ export const CreateProduct = () => {
   const [priceError, setPriceError] = useState('')
   const [file, setFile] = useState<File>()
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
-  const { data: productData, loading } = usePost<Product>({ url: API_ENDPOINTS.PRODUCTS, manual: true })
+  const {
+    data: productData,
+    loading,
+    postData: execCreateReq,
+  } = usePost<Product>({ url: API_ENDPOINTS.PRODUCTS, manual: true })
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileExplorer = () => {
@@ -32,17 +38,24 @@ export const CreateProduct = () => {
 
   useEffect(() => {
     if (typeof productData === 'object' && !Array.isArray(productData) && 'id' in productData) {
-      setCategory('')
-      setFileUrl('')
-      setName('')
-      setDescription('')
-      setCategory('')
-      setPrice('')
+      clearStates()
+      document.dispatchEvent(new Event('reload-products'))
+      close()
     }
   }, [productData])
 
+  const clearStates = () => {
+    setCategory('')
+    setFileUrl('')
+    setName('')
+    setDescription('')
+    setCategory('')
+    setPrice('')
+  }
+
   const handleFileUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
     if (event.target.files) {
+      setFileUrlError('')
       const file = event.target.files[0]
       const fileUrl = URL.createObjectURL(file)
 
@@ -95,20 +108,15 @@ export const CreateProduct = () => {
       formData.append('categoryId', categoryId.toString())
       formData.append('file', file)
 
-      // const data = {
-      //   name,
-      //   description,
-      //   price,
-      //   categoryId: categories?.find((c) => c.name === category)?.id,
-      //   image: file,
-      // }
-      const response = await axios.post(`${stage}/products`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      execCreateReq(
+        {
+          url: API_ENDPOINTS.PRODUCTS,
+          data: formData,
         },
-      })
-
-      console.log(response)
+        {
+          'Content-Type': 'multipart/form-data',
+        }
+      )
     }
   }
 
@@ -117,6 +125,9 @@ export const CreateProduct = () => {
     if (!name) {
       setNameError('Product name is required.')
       isValid = false
+    }
+    if (!fileUrl) {
+      setFileUrlError('Image is required.')
     }
     if (name.length < 2 || name.length > 50) {
       setNameError('Product name must be between 2 and 50 characters long.')
@@ -148,8 +159,6 @@ export const CreateProduct = () => {
 
   const isDisabledCreate = nameError || descriptionError || categoryError || priceError
 
-  console.log('product data', productData)
-
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <input onChange={handleFileUpload} ref={fileInputRef} className="hidden" id="file" type="file" />
@@ -161,9 +170,9 @@ export const CreateProduct = () => {
           <Button onClick={openFileExplorer} size={'xs'}>
             Chose image
           </Button>
+          {fileUrlError && <p className="text-sm text-red-500">{fileUrlError}</p>}
         </figcaption>
       </figure>
-      {fileUrlError && <p className="text-sm text-red-500">{fileUrlError}</p>}
       <div className="px-5 pb-5">
         <form>
           <div className="relative z-0 w-full mb-6 group">
@@ -247,9 +256,12 @@ export const CreateProduct = () => {
             {priceError && <p className="text-sm text-red-500">{priceError}</p>}
           </div>
         </form>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end gap-2">
           <Button isProcessing={loading} disabled={Boolean(isDisabledCreate) || loading} onClick={createProduct}>
             Create Product
+          </Button>
+          <Button color="gray" onClick={() => close()}>
+            Cancel
           </Button>
         </div>
       </div>

@@ -8,6 +8,9 @@ import { EditProductModal } from '../../components/modals/edit-product-modal'
 import './styles.scss'
 import { ProductCard } from '../../components/cards/product-card'
 import { axios } from '../../App'
+import { ConfirmDeleteModal } from '../../components/modals/confirm-delete-modal'
+import { useDelete } from '../../hooks/use-delete'
+import { DeletedItemToast } from '../../components/toast/deleted-item-toast'
 
 export interface CreateOrderProps {
   productId: number
@@ -18,13 +21,25 @@ export interface CreateOrderProps {
 export const Menu = () => {
   const [isOpenOrderDetails, setIsOpenOrderDetails] = useState(false)
   const [isOpenEditProduct, setIsOpenEditProduct] = useState(false)
+  const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false)
   const [productToEdit, setProductToEdit] = useState<Product>()
   const [selectedProduct, setSelectedProduct] = useState<Product>()
-  const [loading, setLoading] = useState(false)
   const [categoryProducts, setCategoryProducts] = useState<Product[]>([])
-
+  const [productToDeleteId, setProductToDeleteId] = useState<number | null>(null)
+  const [showDeletedToast, setShowIsDeletedToast] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { data: deleteResponse, deleteData, loading: deleteLoading } = useDelete({ manual: true })
   const { data: categories } = useGet<Category[]>({ url: API_ENDPOINTS.CATEGORY })
-  const { data: products } = useGet<Product[]>({ url: API_ENDPOINTS.PRODUCTS })
+  const { data: products, getData: getProducts } = useGet<Product[]>({ manual: true })
+
+  useEffect(() => {
+    getProducts(API_ENDPOINTS.PRODUCTS)
+  }, [deleteResponse])
+
+  useEffect(() => {
+    document.addEventListener('reload-products', () => getProducts(API_ENDPOINTS.PRODUCTS))
+    return () => document.removeEventListener('reload-products', () => getProducts(API_ENDPOINTS.PRODUCTS))
+  }, [])
 
   useEffect(() => {
     if (products && categories) {
@@ -88,7 +103,28 @@ export const Menu = () => {
     }
   }
 
-  console.log(products)
+  const handleDeleteClick = (productId: number) => {
+    setProductToDeleteId(productId)
+    setIsOpenDeleteConfirm(true)
+  }
+
+  const closeDeleteConfirm = () => {
+    setIsOpenDeleteConfirm(false)
+    setProductToDeleteId(null)
+  }
+
+  const confirmDelte = () => {
+    deleteData({ url: `${API_ENDPOINTS.PRODUCTS}/${productToDeleteId}` })
+  }
+
+  console.log('deleteResponse', deleteResponse)
+
+  useEffect(() => {
+    if (deleteResponse) {
+      closeDeleteConfirm()
+      setShowIsDeletedToast(true)
+    }
+  }, [deleteResponse])
 
   return (
     <div className="w-full  h-max">
@@ -110,6 +146,7 @@ export const Menu = () => {
                 {...product}
                 handleCreateOrderClick={openOrderDetailsModal}
                 handleEditProductClick={() => openEditProductModal(product)}
+                handleDeleteClick={() => handleDeleteClick(product.id)}
               />
             </CSSTransition>
           ))}
@@ -123,6 +160,13 @@ export const Menu = () => {
         selectedProduct={selectedProduct}
       />
       <EditProductModal isOpen={isOpenEditProduct} product={productToEdit} close={closeEditProductModal} />
+      <ConfirmDeleteModal
+        loading={deleteLoading}
+        isOpen={isOpenDeleteConfirm}
+        cancel={closeDeleteConfirm}
+        confirm={confirmDelte}
+      />
+      {showDeletedToast && <DeletedItemToast duration={3000} />}
     </div>
   )
 }

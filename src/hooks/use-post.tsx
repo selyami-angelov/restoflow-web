@@ -10,6 +10,14 @@ interface PostDataProps {
   url?: string
 }
 
+interface HttpHeaders {
+  'Content-Type': string
+}
+
+const DEFAULE_HEADERS = {
+  'Content-Type': 'application/json',
+}
+
 export const usePost = <T,>({ url, manual }: Props) => {
   const [{ data, error, loading, response }, executePost] = useAxios<T>(
     {
@@ -19,13 +27,10 @@ export const usePost = <T,>({ url, manual }: Props) => {
     { manual }
   )
 
-  const postData = async (postData: PostDataProps, headers: Record<string, string> = {}) => {
+  const postData = async (postData: PostDataProps, headers?: HttpHeaders) => {
     const config = {
       ...postData,
-      headers: {
-        'Content-Type': 'application/json',
-        ...headers,
-      },
+      headers: headers ?? DEFAULE_HEADERS,
     }
     executePost(config)
   }
